@@ -76,6 +76,7 @@ export async function adminLogin(password: string): Promise<void> {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ password }),
+    credentials: "include",
   });
   if (!response.ok) {
     throw new GenerateApiError(await parseJsonError(response), response.status);
