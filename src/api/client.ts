@@ -10,3 +10,17 @@ export function apiUrl(path: string): string {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   return `${API_BASE_URL.replace(/\/$/, "")}${normalizedPath}`;
 }
+
+/**
+ * Authenticated API fetch — always sends cookies on cross-origin requests
+ * (required for admin session cookies against the production NAS backend).
+ */
+export async function apiFetch(
+  path: string,
+  init: RequestInit = {},
+): Promise<Response> {
+  return fetch(apiUrl(path), {
+    ...init,
+    credentials: "include",
+  });
+}

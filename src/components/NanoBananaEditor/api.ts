@@ -1,4 +1,4 @@
-import { apiUrl } from "../../api/client";
+import { apiFetch } from "../../api/client";
 import type {
   ApiErrorDetail,
   GenerateRequestPayload,
@@ -52,10 +52,9 @@ export async function generateImage(
     headers["X-Admin-Request"] = "true";
   }
 
-  const response = await fetch(apiUrl("/api/v1/generate"), {
+  const response = await apiFetch("/api/v1/generate", {
     method: "POST",
     headers,
-    credentials: "include",
     body: JSON.stringify({
       ...payload,
       ...(options?.giftToken ? { gift_token: options.giftToken } : {}),
@@ -73,10 +72,9 @@ export async function generateImage(
 }
 
 export async function adminLogin(password: string): Promise<void> {
-  const response = await fetch(apiUrl("/api/v1/admin/login"), {
+  const response = await apiFetch("/api/v1/admin/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    credentials: "include",
     body: JSON.stringify({ password }),
   });
   if (!response.ok) {
@@ -85,23 +83,19 @@ export async function adminLogin(password: string): Promise<void> {
 }
 
 export async function adminLogout(): Promise<void> {
-  await fetch(apiUrl("/api/v1/admin/logout"), {
-    method: "POST",
-    credentials: "include",
-  });
+  await apiFetch("/api/v1/admin/logout", { method: "POST" });
 }
 
 export async function checkAdminSession(): Promise<boolean> {
-  const response = await fetch(apiUrl("/api/v1/admin/session"), { credentials: "include" });
+  const response = await apiFetch("/api/v1/admin/session");
   if (!response.ok) return false;
   const body = (await response.json()) as { authenticated?: boolean };
   return Boolean(body.authenticated);
 }
 
 export async function generateGiftToken(): Promise<GiftTokenCreateResponse> {
-  const response = await fetch(apiUrl("/api/v1/admin/generate-token"), {
+  const response = await apiFetch("/api/v1/admin/generate-token", {
     method: "POST",
-    credentials: "include",
   });
   if (!response.ok) {
     throw new GenerateApiError(await parseJsonError(response), response.status);
@@ -110,7 +104,7 @@ export async function generateGiftToken(): Promise<GiftTokenCreateResponse> {
 }
 
 export async function listGiftTokens(): Promise<GiftTokenCreateResponse[]> {
-  const response = await fetch(apiUrl("/api/v1/admin/tokens"), { credentials: "include" });
+  const response = await apiFetch("/api/v1/admin/tokens");
   if (!response.ok) {
     throw new GenerateApiError(await parseJsonError(response), response.status);
   }
@@ -120,8 +114,8 @@ export async function listGiftTokens(): Promise<GiftTokenCreateResponse[]> {
 export async function fetchGiftTokenStatus(
   token: string,
 ): Promise<GiftTokenStatusResponse> {
-  const response = await fetch(
-    apiUrl(`/api/v1/gift-tokens/${encodeURIComponent(token)}`),
+  const response = await apiFetch(
+    `/api/v1/gift-tokens/${encodeURIComponent(token)}`,
   );
   if (!response.ok) {
     throw new GenerateApiError(await parseJsonError(response), response.status);
