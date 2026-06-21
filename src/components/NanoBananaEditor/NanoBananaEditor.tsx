@@ -29,6 +29,14 @@ import {
 } from "lucide-react";
 import { generateImage, GenerateApiError } from "./api";
 import {
+  APP_NAME,
+  APP_TAGLINE,
+  CREATOR_STUDIO_LABEL,
+  GENERATING_MESSAGE,
+  GIFT_WORKSPACE_LABEL,
+  PANEL_TITLE,
+} from "../../config/branding";
+import {
   deriveElementsFromPrompt,
   fileToDataUrl,
   QUICK_EDIT_SUGGESTIONS,
@@ -233,7 +241,7 @@ function ControlPanel({
 
   return (
     <Panel
-      title="Control Panel"
+      title={PANEL_TITLE}
       className="w-full shrink-0 border-0 md:w-80 md:border-r xl:w-96"
     >
       <div className="flex flex-1 flex-col gap-5 overflow-y-auto p-4 pb-6">
@@ -768,7 +776,7 @@ function CanvasWorkspace({
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-zinc-950/70 backdrop-blur-sm">
               <Loader2 className="h-10 w-10 animate-spin text-violet-400" />
               <p className="text-sm font-medium text-zinc-300">
-                Nano Banana 2 is working…
+                {GENERATING_MESSAGE}
               </p>
             </div>
           )}
@@ -1285,14 +1293,14 @@ export function NanoBananaEditor({
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-tight sm:text-base">
-              Nano Banana 2
+              {APP_NAME}
             </h1>
             <p className="text-[11px] text-zinc-500">
               {giftMode
-                ? "Gift Workspace"
+                ? GIFT_WORKSPACE_LABEL
                 : isAdmin
-                  ? "Creator Studio · Unlimited Access"
-                  : "Image Editor & Creator"}
+                  ? `${CREATOR_STUDIO_LABEL} · Unlimited Access`
+                  : APP_TAGLINE}
             </p>
           </div>
         </div>

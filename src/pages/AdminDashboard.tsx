@@ -2,6 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertTriangle, Copy, Link2, Loader2, LogOut, Palette, Shield, Sparkles } from "lucide-react";
 import {
+  APP_NAME,
+  ADMIN_LOGIN_SUBTITLE,
+  ADMIN_LOGIN_TITLE,
+} from "../config/branding";
+import {
   GenerateApiError,
   adminLogin,
   generateGiftToken,
@@ -78,8 +83,9 @@ export function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-zinc-950 text-zinc-400">
+      <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-3 bg-zinc-950 text-zinc-400">
         <Loader2 className="h-8 w-8 animate-spin text-violet-400" />
+        <p className="text-sm text-zinc-500">{APP_NAME}</p>
       </div>
     );
   }
@@ -87,16 +93,17 @@ export function AdminDashboard() {
   if (!authenticated) {
     return (
       <div className="flex min-h-[100dvh] items-center justify-center bg-zinc-950 px-4">
-        <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-900/80 p-8 shadow-2xl">
-          <div className="mb-6 flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-600">
-              <Shield className="h-5 w-5 text-white" />
+        <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-900/80 p-8 shadow-2xl shadow-black/40">
+          <div className="mb-8 flex flex-col items-center text-center">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-600 shadow-lg shadow-violet-950/40">
+              <Sparkles className="h-5 w-5 text-white" />
             </div>
-            <div>
-              <h1 className="text-lg font-semibold text-zinc-100">Admin Login</h1>
-              <p className="text-sm text-zinc-500">Master account access</p>
-            </div>
+            <h1 className="text-xl font-bold tracking-tight text-zinc-100">{APP_NAME}</h1>
+            <p className="mt-1 text-sm text-zinc-500">{ADMIN_LOGIN_TITLE}</p>
           </div>
+          <p className="mb-4 text-center text-xs leading-relaxed text-zinc-500">
+            {ADMIN_LOGIN_SUBTITLE}
+          </p>
           <label className="mb-2 block text-xs font-medium uppercase tracking-wide text-zinc-400">
             Master Password
           </label>
@@ -136,8 +143,8 @@ export function AdminDashboard() {
               <Sparkles className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">Gift Link Dashboard</h1>
-              <p className="text-sm text-zinc-500">Generate single-use invite links (max 5 active)</p>
+              <h1 className="text-xl font-bold">{APP_NAME}</h1>
+              <p className="text-sm text-zinc-500">Gift Link Dashboard</p>
             </div>
           </div>
           <button

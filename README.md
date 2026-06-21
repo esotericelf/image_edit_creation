@@ -1,6 +1,6 @@
-# Nano Banana 2 — Image Editor & Creator
+# Studio Canvas — Image Editor & Creator
 
-Modern React frontend for the Nano Banana 2 image generation suite.
+Modern React frontend for the Studio Canvas AI image generation suite.
 
 ## Stack
 

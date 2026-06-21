@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
+import { APP_NAME } from "../config/branding";
 import { NanoBananaEditor } from "../components/NanoBananaEditor";
 import { useAdminAuth } from "../contexts/AdminAuthContext";
 
@@ -13,8 +14,9 @@ export function CreatorStudioPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-zinc-950 text-zinc-400">
+      <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-3 bg-zinc-950 text-zinc-400">
         <Loader2 className="h-8 w-8 animate-spin text-violet-400" />
+        <p className="text-sm text-zinc-500">{APP_NAME}</p>
       </div>
     );
   }
