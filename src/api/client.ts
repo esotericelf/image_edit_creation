@@ -1,9 +1,13 @@
 /**
- * Production API base URL (Netlify: set VITE_API_URL to your public NAS/server endpoint).
- * Development falls back to the local Docker-published host port.
+ * API base URL — set VITE_API_URL in Netlify (production) or .env.development (local).
  */
-// const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
-const API_BASE_URL = "https://appointments-pine-founded-dale.trycloudflare.com";
+const configuredApiUrl = import.meta.env.VITE_API_URL;
+
+if (!configuredApiUrl) {
+  throw new Error("VITE_API_URL is not configured.");
+}
+
+const API_BASE_URL: string = configuredApiUrl;
 
 export { API_BASE_URL };
 
@@ -13,10 +17,7 @@ export function apiUrl(path: string): string {
   return `${API_BASE_URL.replace(/\/$/, "")}${normalizedPath}`;
 }
 
-/**
- * Authenticated API fetch — always sends cookies on cross-origin requests
- * (required for admin session cookies against the production NAS backend).
- */
+/** Authenticated API fetch — sends cookies for admin session on cross-origin requests. */
 export async function apiFetch(
   path: string,
   init: RequestInit = {},
