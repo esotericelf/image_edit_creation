@@ -66,6 +66,14 @@ export interface ApiErrorDetail {
   field?: string;
 }
 
+export interface AdminLoginResponse {
+  message: string;
+}
+
+export interface AdminSessionResponse {
+  authenticated: boolean;
+}
+
 export interface GiftTokenCreateResponse {
   token: string;
   invite_path: string;

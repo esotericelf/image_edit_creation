@@ -8,7 +8,6 @@ import {
 } from "../config/branding";
 import {
   GenerateApiError,
-  adminLogin,
   generateGiftToken,
   listGiftTokens,
 } from "../components/NanoBananaEditor/api";
@@ -16,7 +15,7 @@ import type { GiftTokenCreateResponse } from "../components/NanoBananaEditor/typ
 import { useAdminAuth } from "../contexts/AdminAuthContext";
 
 export function AdminDashboard() {
-  const { isAdmin: authenticated, loading, refreshAdminSession, logoutAdmin } = useAdminAuth();
+  const { isAdmin: authenticated, loading, loginAdmin, logoutAdmin } = useAdminAuth();
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [generating, setGenerating] = useState(false);
@@ -40,12 +39,17 @@ export function AdminDashboard() {
     setSubmitting(true);
     setError(null);
     try {
-      await adminLogin(password);
-      await refreshAdminSession();
+      await loginAdmin(password);
       setPassword("");
       await refreshTokens();
     } catch (err) {
-      setError(err instanceof GenerateApiError ? err.message : "Login failed.");
+      setError(
+        err instanceof GenerateApiError
+          ? err.message
+          : err instanceof Error
+            ? err.message
+            : "Login failed.",
+      );
     } finally {
       setSubmitting(false);
     }

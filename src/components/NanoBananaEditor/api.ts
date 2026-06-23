@@ -1,5 +1,7 @@
 import { apiFetch } from "../../api/client";
 import type {
+  AdminLoginResponse,
+  AdminSessionResponse,
   ApiErrorDetail,
   GenerateRequestPayload,
   GenerateResponse,
@@ -71,7 +73,7 @@ export async function generateImage(
   return (await response.json()) as GenerateResponse;
 }
 
-export async function adminLogin(password: string): Promise<void> {
+export async function adminLogin(password: string): Promise<AdminLoginResponse> {
   const response = await apiFetch("/api/v1/admin/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -80,6 +82,7 @@ export async function adminLogin(password: string): Promise<void> {
   if (!response.ok) {
     throw new GenerateApiError(await parseJsonError(response), response.status);
   }
+  return (await response.json()) as AdminLoginResponse;
 }
 
 export async function adminLogout(): Promise<void> {
@@ -89,7 +92,7 @@ export async function adminLogout(): Promise<void> {
 export async function checkAdminSession(): Promise<boolean> {
   const response = await apiFetch("/api/v1/admin/session");
   if (!response.ok) return false;
-  const body = (await response.json()) as { authenticated?: boolean };
+  const body = (await response.json()) as AdminSessionResponse;
   return Boolean(body.authenticated);
 }
 
