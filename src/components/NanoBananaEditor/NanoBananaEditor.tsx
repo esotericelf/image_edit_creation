@@ -90,19 +90,18 @@ function Panel({
   return (
     <aside
       className={cn(
-        "grid h-full max-h-full min-h-0 overflow-hidden border-zinc-800/80 bg-zinc-950/90 backdrop-blur-sm",
-        hideHeader ? "grid-rows-[minmax(0,1fr)]" : "grid-rows-[auto_minmax(0,1fr)]",
+        "flex h-full min-h-0 w-full flex-col overflow-hidden border-zinc-800/80 bg-zinc-950/90 backdrop-blur-sm",
         className,
       )}
     >
       {!hideHeader && (
-        <header className="border-b border-zinc-800/80 px-4 py-3">
+        <header className="shrink-0 border-b border-zinc-800/80 px-4 py-3">
           <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">
             {title}
           </h2>
         </header>
       )}
-      <div className="min-h-0 overflow-hidden">{children}</div>
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">{children}</div>
     </aside>
   );
 }
@@ -259,9 +258,9 @@ function ControlPanel({
   return (
     <Panel
       title={PANEL_TITLE}
-      className="h-full w-full border-0 md:w-80 md:border-r xl:w-96"
+      className="shrink-0 border-0 md:w-80 md:border-r xl:w-96"
     >
-      <div className="flex h-full min-h-0 flex-col gap-5 overflow-y-auto p-4 pb-6">
+      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-4 pb-6">
         {!hideModeToggle && <ModeToggle mode={mode} onChange={onModeChange} />}
 
         <div className="space-y-2">
@@ -852,9 +851,9 @@ function ChatRefinementPanel({
   };
 
   return (
-    <Panel title="Refinement Chat" className="h-full w-full border-0 md:w-72 md:border-l xl:w-80">
-      <div className="grid h-full min-h-0 grid-rows-[minmax(0,1fr)_auto]">
-        <div className="min-h-0 space-y-3 overflow-y-auto p-3">
+    <Panel title="Refinement Chat" className="shrink-0 border-0 md:w-72 md:border-l xl:w-80">
+      <div className="flex min-h-0 flex-1 flex-col">
+        <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-3">
           {messages.length === 0 ? (
             <div className="flex min-h-[160px] flex-col items-center justify-center gap-2 px-4 text-center">
               <MessageSquare className="h-6 w-6 text-zinc-700" />
@@ -911,7 +910,7 @@ function ChatRefinementPanel({
           <div ref={threadEndRef} />
         </div>
 
-        <div className="border-t border-zinc-800 p-3">
+        <div className="shrink-0 border-t border-zinc-800 p-3">
           <label htmlFor={refinePromptId} className="sr-only">
             Refinement prompt
           </label>
@@ -983,8 +982,8 @@ interface RecentGalleryProps {
 
 function RecentGallery({ records, activeId, onSelect }: RecentGalleryProps) {
   return (
-    <Panel title="Recent Generations" className="h-full w-full border-0 md:w-56 md:border-l xl:w-64">
-      <div className="h-full min-h-0 overflow-y-auto p-3">
+    <Panel title="Recent Generations" className="w-full shrink-0 border-0 md:w-56 md:border-l xl:w-64">
+      <div className="min-h-0 flex-1 overflow-y-auto p-3">
         {records.length === 0 ? (
           <div className="flex h-full min-h-[200px] flex-col items-center justify-center gap-2 px-2 text-center">
             <Sparkles className="h-6 w-6 text-zinc-700" />
@@ -1276,7 +1275,7 @@ export function NanoBananaEditor({
   }, []);
 
   return (
-    <div className="relative grid h-full min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden bg-zinc-950 text-zinc-100 md:grid-rows-[auto_minmax(0,1fr)]">
+    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-zinc-950 text-zinc-100">
       {isGiftLocked && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-zinc-950/90 px-6 backdrop-blur-sm">
           <div className="max-w-md rounded-2xl border border-zinc-800 bg-zinc-900/90 p-8 text-center shadow-2xl">
@@ -1340,68 +1339,73 @@ export function NanoBananaEditor({
 
       {!giftMode && <MobileTabBar active={mobileView} onChange={setMobileView} />}
 
-      <div
-        className={cn(
-          "grid h-full min-h-0 grid-cols-1 overflow-hidden",
-          "md:grid-cols-[minmax(0,20rem)_minmax(0,1fr)_minmax(0,36rem)]",
-        )}
-      >
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden md:h-full md:flex-row">
         <div
           className={cn(
-            "flex h-full min-h-0 flex-col overflow-hidden",
-            mobileView === "controls" ? "flex" : "hidden",
+            "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden md:h-full md:flex-row",
+            mobileView === "controls" || mobileView === "workspace"
+              ? "flex"
+              : "hidden",
             "md:flex",
           )}
         >
-          <ControlPanel
-            mode={mode}
-            onModeChange={setMode}
-            hideModeToggle={giftMode}
-            prompt={prompt}
-            onPromptChange={setPrompt}
-            baseImagePreview={baseImagePreview}
-            onBaseImageChange={handleBaseImageChange}
-            resolution={resolution}
-            onResolutionChange={setResolution}
-            safetyTolerance={safetyTolerance}
-            onSafetyToleranceChange={setSafetyTolerance}
-            isGenerating={isGenerating || isGiftLocked}
-            error={error}
-            onGenerate={handleGenerate}
-          />
-        </div>
+          <div
+            className={cn(
+              "flex min-h-0 flex-col overflow-hidden md:h-full md:shrink-0",
+              mobileView === "controls" ? "flex" : "hidden",
+              "md:flex",
+            )}
+          >
+            <ControlPanel
+              mode={mode}
+              onModeChange={setMode}
+              hideModeToggle={giftMode}
+              prompt={prompt}
+              onPromptChange={setPrompt}
+              baseImagePreview={baseImagePreview}
+              onBaseImageChange={handleBaseImageChange}
+              resolution={resolution}
+              onResolutionChange={setResolution}
+              safetyTolerance={safetyTolerance}
+              onSafetyToleranceChange={setSafetyTolerance}
+              isGenerating={isGenerating || isGiftLocked}
+              error={error}
+              onGenerate={handleGenerate}
+            />
+          </div>
 
-        <div
-          className={cn(
-            "flex h-full min-h-0 flex-col overflow-hidden",
-            mobileView === "workspace" ? "flex" : "hidden",
-            "md:flex",
-          )}
-        >
-          <CanvasWorkspace
-            imageUrl={canvasImageUrl}
-            isGenerating={isGenerating || isApplyingEdit || isRefining}
-            activeTool={activeTool}
-            onToolChange={setActiveTool}
-            elements={elements}
-            selectedElementId={selectedElementId}
-            onSelectElement={setSelectedElementId}
-            editPrompt={editPrompt}
-            onEditPromptChange={setEditPrompt}
-            showInteraction={showInteraction && !giftMode}
-            onCloseInteraction={() => setShowInteraction(false)}
-            onApplyElementEdit={handleApplyElementEdit}
-            isApplyingEdit={isApplyingEdit}
-            mode={mode}
-          />
+          <div
+            className={cn(
+              "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden md:h-full",
+              mobileView === "workspace" ? "flex" : "hidden",
+              "md:flex",
+            )}
+          >
+            <CanvasWorkspace
+              imageUrl={canvasImageUrl}
+              isGenerating={isGenerating || isApplyingEdit || isRefining}
+              activeTool={activeTool}
+              onToolChange={setActiveTool}
+              elements={elements}
+              selectedElementId={selectedElementId}
+              onSelectElement={setSelectedElementId}
+              editPrompt={editPrompt}
+              onEditPromptChange={setEditPrompt}
+              showInteraction={showInteraction && !giftMode}
+              onCloseInteraction={() => setShowInteraction(false)}
+              onApplyElementEdit={handleApplyElementEdit}
+              isApplyingEdit={isApplyingEdit}
+              mode={mode}
+            />
+          </div>
         </div>
 
         {!giftMode && (
         <div
           className={cn(
-            "grid h-full min-h-0 grid-cols-1 overflow-hidden",
-            mobileView === "history" ? "grid" : "hidden",
-            "md:grid md:grid-cols-[minmax(0,18rem)_minmax(0,16rem)]",
+            "flex min-h-0 shrink-0 flex-col overflow-hidden md:h-full md:flex-row",
+            mobileView === "history" ? "flex" : "hidden",
+            "md:flex",
           )}
         >
           <ChatRefinementPanel

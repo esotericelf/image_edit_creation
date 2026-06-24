@@ -82,14 +82,16 @@ export function GiftInvitePage() {
   }
 
   return (
-    <div className="grid h-[100dvh] max-h-[100dvh] overflow-hidden">
-      <NanoBananaEditor
+    <div className="flex h-[100dvh] max-h-[100dvh] flex-col overflow-hidden">
+      <div className="min-h-0 flex-1 overflow-hidden">
+        <NanoBananaEditor
         giftToken={token}
         giftMode
         isGiftLocked={giftLocked}
         initialPrompt="Describe the image you'd like to create…"
         onGiftRedeemed={() => setGiftLocked(true)}
       />
+      </div>
     </div>
   );
 }
