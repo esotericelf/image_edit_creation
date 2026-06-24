@@ -90,7 +90,8 @@ function Panel({
   return (
     <aside
       className={cn(
-        "flex h-full min-h-0 flex-col border-zinc-800/80 bg-zinc-950/90 backdrop-blur-sm",
+        "grid h-full max-h-full min-h-0 overflow-hidden border-zinc-800/80 bg-zinc-950/90 backdrop-blur-sm",
+        hideHeader ? "grid-rows-[minmax(0,1fr)]" : "grid-rows-[auto_minmax(0,1fr)]",
         className,
       )}
     >
@@ -101,7 +102,7 @@ function Panel({
           </h2>
         </header>
       )}
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">{children}</div>
+      <div className="min-h-0 overflow-hidden">{children}</div>
     </aside>
   );
 }
@@ -258,9 +259,9 @@ function ControlPanel({
   return (
     <Panel
       title={PANEL_TITLE}
-      className="w-full shrink-0 border-0 md:w-80 md:border-r xl:w-96"
+      className="h-full w-full border-0 md:w-80 md:border-r xl:w-96"
     >
-      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-4 pb-6">
+      <div className="flex h-full min-h-0 flex-col gap-5 overflow-y-auto p-4 pb-6">
         {!hideModeToggle && <ModeToggle mode={mode} onChange={onModeChange} />}
 
         <div className="space-y-2">
@@ -751,7 +752,7 @@ function CanvasWorkspace({
   }, [onToolChange]);
 
   return (
-    <main className="relative flex min-h-[min(55vh,32rem)] min-w-0 flex-1 flex-col bg-zinc-900/30 lg:min-h-[420px]">
+    <main className="relative flex min-h-[min(55vh,32rem)] min-w-0 flex-1 flex-col bg-zinc-900/30 md:min-h-0">
       <FloatingToolbar
         activeTool={activeTool}
         onToolChange={handleToolChange}
@@ -851,9 +852,9 @@ function ChatRefinementPanel({
   };
 
   return (
-    <Panel title="Refinement Chat" className="w-full shrink-0 border-0 md:w-72 md:border-l xl:w-80">
-      <div className="flex min-h-0 flex-1 flex-col">
-        <div className="flex-1 space-y-3 overflow-y-auto p-3">
+    <Panel title="Refinement Chat" className="h-full w-full border-0 md:w-72 md:border-l xl:w-80">
+      <div className="grid h-full min-h-0 grid-rows-[minmax(0,1fr)_auto]">
+        <div className="min-h-0 space-y-3 overflow-y-auto p-3">
           {messages.length === 0 ? (
             <div className="flex min-h-[160px] flex-col items-center justify-center gap-2 px-4 text-center">
               <MessageSquare className="h-6 w-6 text-zinc-700" />
@@ -982,8 +983,8 @@ interface RecentGalleryProps {
 
 function RecentGallery({ records, activeId, onSelect }: RecentGalleryProps) {
   return (
-    <Panel title="Recent Generations" className="w-full shrink-0 border-0 md:w-56 md:border-l xl:w-64">
-      <div className="min-h-0 flex-1 overflow-y-auto p-3">
+    <Panel title="Recent Generations" className="h-full w-full border-0 md:w-56 md:border-l xl:w-64">
+      <div className="h-full min-h-0 overflow-y-auto p-3">
         {records.length === 0 ? (
           <div className="flex h-full min-h-[200px] flex-col items-center justify-center gap-2 px-2 text-center">
             <Sparkles className="h-6 w-6 text-zinc-700" />
@@ -1275,7 +1276,7 @@ export function NanoBananaEditor({
   }, []);
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-zinc-950 text-zinc-100">
+    <div className="relative grid h-full min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden bg-zinc-950 text-zinc-100 md:grid-rows-[auto_minmax(0,1fr)]">
       {isGiftLocked && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-zinc-950/90 px-6 backdrop-blur-sm">
           <div className="max-w-md rounded-2xl border border-zinc-800 bg-zinc-900/90 p-8 text-center shadow-2xl">
@@ -1339,10 +1340,15 @@ export function NanoBananaEditor({
 
       {!giftMode && <MobileTabBar active={mobileView} onChange={setMobileView} />}
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden md:flex-row">
+      <div
+        className={cn(
+          "grid h-full min-h-0 grid-cols-1 overflow-hidden",
+          "md:grid-cols-[minmax(0,20rem)_minmax(0,1fr)_minmax(0,36rem)]",
+        )}
+      >
         <div
           className={cn(
-            "min-h-0 flex-1 flex-col overflow-hidden",
+            "flex h-full min-h-0 flex-col overflow-hidden",
             mobileView === "controls" ? "flex" : "hidden",
             "md:flex",
           )}
@@ -1367,7 +1373,7 @@ export function NanoBananaEditor({
 
         <div
           className={cn(
-            "min-h-0 flex-1 flex-col overflow-hidden",
+            "flex h-full min-h-0 flex-col overflow-hidden",
             mobileView === "workspace" ? "flex" : "hidden",
             "md:flex",
           )}
@@ -1393,9 +1399,9 @@ export function NanoBananaEditor({
         {!giftMode && (
         <div
           className={cn(
-            "flex min-h-0 flex-1 flex-col overflow-hidden",
-            mobileView === "history" ? "flex" : "hidden",
-            "md:flex md:min-h-0 md:flex-row md:overflow-hidden",
+            "grid h-full min-h-0 grid-cols-1 overflow-hidden",
+            mobileView === "history" ? "grid" : "hidden",
+            "md:grid md:grid-cols-[minmax(0,18rem)_minmax(0,16rem)]",
           )}
         >
           <ChatRefinementPanel

@@ -26,7 +26,7 @@ export function CreatorStudioPage() {
   }
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-hidden bg-zinc-950">
+    <div className="grid h-[100dvh] max-h-[100dvh] grid-rows-[auto_minmax(0,1fr)] overflow-hidden bg-zinc-950">
       <div className="flex shrink-0 items-center justify-end border-b border-zinc-800/80 px-4 py-2 sm:px-6">
         <Link
           to="/admin"
@@ -35,9 +35,7 @@ export function CreatorStudioPage() {
           Back to Gift Dashboard
         </Link>
       </div>
-      <div className="min-h-0 flex-1 overflow-hidden">
-        <NanoBananaEditor isAdmin />
-      </div>
+      <NanoBananaEditor isAdmin />
     </div>
   );
 }

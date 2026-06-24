@@ -82,7 +82,7 @@ export function GiftInvitePage() {
   }
 
   return (
-    <div className="h-[100dvh] overflow-hidden">
+    <div className="grid h-[100dvh] max-h-[100dvh] overflow-hidden">
       <NanoBananaEditor
         giftToken={token}
         giftMode
