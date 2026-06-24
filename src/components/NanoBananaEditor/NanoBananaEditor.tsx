@@ -90,7 +90,7 @@ function Panel({
   return (
     <aside
       className={cn(
-        "flex flex-col border-zinc-800/80 bg-zinc-950/90 backdrop-blur-sm",
+        "flex h-full min-h-0 flex-col border-zinc-800/80 bg-zinc-950/90 backdrop-blur-sm",
         className,
       )}
     >
@@ -260,7 +260,7 @@ function ControlPanel({
       title={PANEL_TITLE}
       className="w-full shrink-0 border-0 md:w-80 md:border-r xl:w-96"
     >
-      <div className="flex flex-1 flex-col gap-5 overflow-y-auto p-4 pb-6">
+      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-4 pb-6">
         {!hideModeToggle && <ModeToggle mode={mode} onChange={onModeChange} />}
 
         <div className="space-y-2">
@@ -983,7 +983,7 @@ interface RecentGalleryProps {
 function RecentGallery({ records, activeId, onSelect }: RecentGalleryProps) {
   return (
     <Panel title="Recent Generations" className="w-full shrink-0 border-0 md:w-56 md:border-l xl:w-64">
-      <div className="flex-1 overflow-y-auto p-3">
+      <div className="min-h-0 flex-1 overflow-y-auto p-3">
         {records.length === 0 ? (
           <div className="flex h-full min-h-[200px] flex-col items-center justify-center gap-2 px-2 text-center">
             <Sparkles className="h-6 w-6 text-zinc-700" />
@@ -1166,7 +1166,7 @@ export function NanoBananaEditor({
           isAdmin,
         });
 
-        const image = response.images[0];
+        const image = response?.images?.[0];
         if (!image?.url) {
           throw new Error("No image returned from the server.");
         }
@@ -1275,7 +1275,7 @@ export function NanoBananaEditor({
   }, []);
 
   return (
-    <div className="relative flex min-h-[100dvh] flex-col bg-zinc-950 text-zinc-100">
+    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-zinc-950 text-zinc-100">
       {isGiftLocked && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-zinc-950/90 px-6 backdrop-blur-sm">
           <div className="max-w-md rounded-2xl border border-zinc-800 bg-zinc-900/90 p-8 text-center shadow-2xl">
@@ -1393,9 +1393,9 @@ export function NanoBananaEditor({
         {!giftMode && (
         <div
           className={cn(
-            "min-h-0 flex-1 flex-col overflow-y-auto",
+            "flex min-h-0 flex-1 flex-col overflow-hidden",
             mobileView === "history" ? "flex" : "hidden",
-            "md:flex md:max-w-none md:flex-row md:overflow-hidden",
+            "md:flex md:min-h-0 md:flex-row md:overflow-hidden",
           )}
         >
           <ChatRefinementPanel

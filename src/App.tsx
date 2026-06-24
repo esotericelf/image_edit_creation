@@ -9,10 +9,11 @@ export default function App() {
     <AdminAuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/editor" replace />} />
-          <Route path="/editor" element={<CreatorStudioPage />} />
+          <Route path="/" element={<Navigate to="/admin" replace />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/editor" element={<CreatorStudioPage />} />
           <Route path="/invite/:token" element={<GiftInvitePage />} />
+          <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
       </BrowserRouter>
     </AdminAuthProvider>
